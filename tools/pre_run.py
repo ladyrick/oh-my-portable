@@ -17,11 +17,12 @@ def pre_run(filename):
         pre_run_ans = subprocess.check_output(["bash", "-c", pre_run_cmd]).decode("utf-8").strip()
         to_replace.append((it.group(0), "'%s'" % pre_run_ans))
 
-    for rep in to_replace:
-        filecontent = filecontent.replace(rep[0], rep[1], 1)
+    if to_replace:
+        for rep in to_replace:
+            filecontent = filecontent.replace(rep[0], rep[1], 1)
 
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(filecontent)
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(filecontent)
 
 
 if __name__ == "__main__":
