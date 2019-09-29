@@ -1,4 +1,4 @@
-alias ls="ls --color=auto"
+[[ "$(uname)" == "Darwin" ]] && alias ls="ls -G" || alias ls="ls --color=auto"
 alias ll="ls -alhF"
 alias la="ls -a"
 alias l="ll"
