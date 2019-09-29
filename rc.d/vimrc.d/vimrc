@@ -1,0 +1,9 @@
+:set nu
+:set tabstop=4
+:set shiftwidth=4
+:set expandtab
+:set noswapfile
+:set mouse=in
+:syntax on
+:set nocp
+:set encoding=utf-8

@@ -1,0 +1,6 @@
+dist/
+.vscode/
+
+.DS_Store
+
+rc.d.private/
