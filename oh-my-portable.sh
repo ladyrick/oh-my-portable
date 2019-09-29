@@ -8,7 +8,7 @@ if [[ $# == 0 ]]; then
 		echo Please run \"source oh-my-portable.sh\" to bring it into effect.
 	fi
 else
-	export OH_MY_PORTABLE=${OH_MY_PORTABLE:=$(dirname $(readlink $0))}
+	export OH_MY_PORTABLE=${OH_MY_PORTABLE:=$(cd $(dirname $0);pwd)}
 	case "$1" in
 	c) # compile.
 		bash $OH_MY_PORTABLE/tools/compile.sh
