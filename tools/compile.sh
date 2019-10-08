@@ -23,7 +23,7 @@ function __make_inline_profile() {
 	# gitconfig
 	cat >>$inline_profile <<-EOF
 		function __oh_my_portable_git() {
-			$(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | python tools/git_with_config.py inline_profile)
+			$(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | python $OH_MY_PORTABLE/tools/git_with_config.py inline_profile)
 		}
 		alias git=__oh_my_portable_git
 	EOF
@@ -32,7 +32,7 @@ function __make_inline_profile() {
 function __make_profile() {
 	__merge_files $OH_MY_PORTABLE/rc.d/bashrc.d/* $OH_MY_PORTABLE/rc.d.private/bashrc.d/* >>$OH_MY_PORTABLE/dist/profile.sh
 	__merge_files $OH_MY_PORTABLE/rc.d/vimrc.d/* $OH_MY_PORTABLE/rc.d.private/vimrc.d/* >>$OH_MY_PORTABLE/dist/vimrc
-	bash <(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | python tools/git_with_config.py profile)
+	bash <(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | python $OH_MY_PORTABLE/tools/git_with_config.py profile)
 }
 
 function __patch_ssh() {
