@@ -3,7 +3,7 @@ import re
 from collections import OrderedDict
 import sys
 
-re_ = re.compile(r"^([\w\.]+)=(.+)$")
+re_ = re.compile(r"^([^=]+)=(.+)$")
 
 
 def parse(line):
