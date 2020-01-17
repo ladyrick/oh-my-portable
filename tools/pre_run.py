@@ -15,7 +15,7 @@ def pre_run(filename):
     for it in re.finditer(r"\$\{PRE_RUN_BEGIN\}(.*?)\$\{PRE_RUN_END\}", filecontent, re.S):
         pre_run_cmd = it.group(1)
         pre_run_ans = subprocess.check_output(["bash", "-c", pre_run_cmd]).decode("utf-8").strip()
-        to_replace.append((it.group(0), "'%s'" % pre_run_ans))
+        to_replace.append((it.group(0), "%s" % pre_run_ans))
 
     if to_replace:
         for rep in to_replace:
