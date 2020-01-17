@@ -4,12 +4,8 @@ import subprocess
 
 
 def pre_run(filename):
-    try:
-        with open(filename, "r", encoding="utf-8") as f:
-            filecontent = f.read()
-    except:
-        print("File not found: %s" % filename)
-        return
+    with open(filename, "r", encoding="utf-8") as f:
+        filecontent = f.read()
 
     to_replace = []
     for it in re.finditer(r"\$\{PRE_RUN_BEGIN\}(.*?)\$\{PRE_RUN_END\}", filecontent, re.S):
