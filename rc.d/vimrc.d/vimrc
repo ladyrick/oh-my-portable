@@ -11,3 +11,4 @@
 :set encoding=utf-8
 :set hlsearch
 :set backspace=indent,eol,start
+:hi Search cterm=None ctermfg=black ctermbg=LightMagenta
