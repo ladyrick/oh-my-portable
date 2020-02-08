@@ -45,8 +45,8 @@ if [[ "$1" == "s" ]]; then
 	__patch_ssh
 	echo 'export OH_MY_PORTABLE_ONLY_PATCH_SSH=1' >>$OH_MY_PORTABLE/dist/profile.sh
 else
-	__make_profile
 	__patch_ssh
+	__make_profile
 fi
 
 cat >>$OH_MY_PORTABLE/dist/profile.sh <<-'EOF'
