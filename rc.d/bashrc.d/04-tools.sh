@@ -77,3 +77,7 @@ function c256() {
         echo "$@"
     fi
 }
+
+function hostip() {
+    host $(hostname) | awk '/has address/{print $NF}'
+}
