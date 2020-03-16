@@ -1,11 +1,6 @@
 [[ -f ~/.bashrc ]] || touch ~/.bashrc
-grep '# >>> oh my portable >>>' ~/.bashrc &>/dev/null || cat >>~/.bashrc <<-EOF
-	
-	# >>> oh my portable >>>
-	export OH_MY_PORTABLE=$OH_MY_PORTABLE
-	source \$OH_MY_PORTABLE/oh-my-portable.sh
-	# <<< oh my portable <<<
-EOF
+sed -i '/source \"$OH_MY_PORTABLE\/oh-my-portable.sh\"/d' ~/.bashrc
+echo "export OH_MY_PORTABLE=\"$OH_MY_PORTABLE\" && source \"\$OH_MY_PORTABLE/oh-my-portable.sh\"" >>~/.bashrc
 
 function __backup_and_copy() {
 	[[ -z "$1" || -z "$2" ]] && return 1
