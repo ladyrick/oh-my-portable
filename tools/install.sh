@@ -1,6 +1,8 @@
 [[ -f ~/.bashrc ]] || touch ~/.bashrc
-sed -i '/source \"$OH_MY_PORTABLE\/oh-my-portable.sh\"/d' ~/.bashrc
-echo "export OH_MY_PORTABLE=\"$OH_MY_PORTABLE\" && source \"\$OH_MY_PORTABLE/oh-my-portable.sh\"" >>~/.bashrc
+grep "export OH_MY_PORTABLE=\"$OH_MY_PORTABLE\" && source \"\$OH_MY_PORTABLE/oh-my-portable.sh\"" ~/.bashrc || {
+	sed -i '/source \"$OH_MY_PORTABLE\/oh-my-portable.sh\"/d' ~/.bashrc
+	echo "export OH_MY_PORTABLE=\"$OH_MY_PORTABLE\" && source \"\$OH_MY_PORTABLE/oh-my-portable.sh\"" >>~/.bashrc
+}
 
 function __backup_and_copy() {
 	[[ -z "$1" || -z "$2" ]] && return 1
