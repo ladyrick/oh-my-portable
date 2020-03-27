@@ -28,7 +28,7 @@ function __make_inline_profile() {
 		# portable git config
 		cat >>$inline_profile <<-EOF
 			function __oh_my_portable_git() {
-				$(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | $OH_MY_PORTABLE/tools/git_with_config.py inline_profile)
+				$(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | python3 $OH_MY_PORTABLE/tools/git_with_config.py inline_profile)
 			}
 			alias git=__oh_my_portable_git
 		EOF
@@ -43,7 +43,7 @@ function __make_profile() {
 		__merge_files $OH_MY_PORTABLE/rc.d/vimrc.d/* $OH_MY_PORTABLE/rc.d.private/vimrc.d/* >>$OH_MY_PORTABLE/dist/vimrc
 	fi
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ g ]]; then
-		bash <(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | $OH_MY_PORTABLE/tools/git_with_config.py profile)
+		bash <(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | python3 $OH_MY_PORTABLE/tools/git_with_config.py profile)
 	fi
 }
 
