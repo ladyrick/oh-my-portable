@@ -1,29 +1,16 @@
 #!/bin/bash
+export OH_MY_PORTABLE="$(cd "$(dirname "$BASH_SOURCE[0]")" && pwd)"
+source $OH_MY_PORTABLE/config.sh
+OH_MY_PORTABLE_CONFIG=
+[[ "$__only_patch_ssh" == "true" ]] && OH_MY_PORTABLE_CONFIG=o$OH_MY_PORTABLE_CONFIG
+[[ "$__portable_vim" == "true" ]] && OH_MY_PORTABLE_CONFIG=v$OH_MY_PORTABLE_CONFIG
+[[ "$__portable_git" == "true" ]] && OH_MY_PORTABLE_CONFIG=g$OH_MY_PORTABLE_CONFIG
+[[ "$__portable_bash" == "true" ]] && OH_MY_PORTABLE_CONFIG=b$OH_MY_PORTABLE_CONFIG
+export OH_MY_PORTABLE_CONFIG
 
-if [[ $# == 0 ]]; then
-	# Directly run this script will do nothing.
-	# Please run "source oh-my-portable.sh" to bring it into effect.
-	source $OH_MY_PORTABLE/dist/profile.sh
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+	bash $OH_MY_PORTABLE/tools/compile.sh
+	bash $OH_MY_PORTABLE/tools/install.sh
 else
-	export OH_MY_PORTABLE=$(cd $(dirname $0) && pwd)
-	case "$1" in
-	c) # compile.
-		bash $OH_MY_PORTABLE/tools/compile.sh
-		;;
-	i) # compile and install.
-		bash $OH_MY_PORTABLE/tools/compile.sh
-		bash $OH_MY_PORTABLE/tools/install.sh
-		;;
-	cs) # compile. only patch ssh.
-		bash $OH_MY_PORTABLE/tools/compile.sh s
-		;;
-	is) # compile and install. only patch ssh.
-		bash $OH_MY_PORTABLE/tools/compile.sh s
-		bash $OH_MY_PORTABLE/tools/install.sh
-		;;
-	*)
-		echo unknown operator
-		exit 1
-		;;
-	esac
+	source $OH_MY_PORTABLE/dist/profile.sh
 fi

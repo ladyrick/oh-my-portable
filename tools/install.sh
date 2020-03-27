@@ -1,7 +1,7 @@
 [[ -f ~/.bashrc ]] || touch ~/.bashrc
-grep "export OH_MY_PORTABLE=\"$OH_MY_PORTABLE\" && source \"\$OH_MY_PORTABLE/oh-my-portable.sh\"" ~/.bashrc || {
-	sed -i '/source \"$OH_MY_PORTABLE\/oh-my-portable.sh\"/d' ~/.bashrc
-	echo "export OH_MY_PORTABLE=\"$OH_MY_PORTABLE\" && source \"\$OH_MY_PORTABLE/oh-my-portable.sh\"" >>~/.bashrc
+grep "source \"$OH_MY_PORTABLE/oh-my-portable.sh\"" ~/.bashrc &>/dev/null || {
+	sed -i '/source \".*oh-my-portable.sh\"/d' ~/.bashrc
+	echo "source \"$OH_MY_PORTABLE/oh-my-portable.sh\"" >>~/.bashrc
 }
 
 function __backup_and_copy() {
@@ -10,7 +10,11 @@ function __backup_and_copy() {
 	cp "$1" "$2" 2>/dev/null
 }
 
-__backup_and_copy $OH_MY_PORTABLE/dist/vimrc ~/.vimrc 2>/dev/null
-__backup_and_copy $OH_MY_PORTABLE/dist/.gitconfig ~/.gitconfig 2>/dev/null
+if [[ "$OH_MY_PORTABLE_CONFIG" =~ v ]]; then
+	__backup_and_copy $OH_MY_PORTABLE/dist/vimrc ~/.vimrc 2>/dev/null
+fi
+if [[ "$OH_MY_PORTABLE_CONFIG" =~ g ]]; then
+	__backup_and_copy $OH_MY_PORTABLE/dist/.gitconfig ~/.gitconfig 2>/dev/null
+fi
 
 echo Finished. Please restart the shell or run \"source "~/.bashrc"\"
