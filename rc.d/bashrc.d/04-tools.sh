@@ -14,6 +14,10 @@ function keygen() {
 }
 
 function __echo_color_8() {
+	if ((30 <= $1 && $1 <= 37)); then
+		local color_code="$1"
+		shift
+	fi
 	while [[ -n "$1" ]]; do
 		if [[ "$1" == "-b" ]]; then
 			local decoration="1"
@@ -23,9 +27,6 @@ function __echo_color_8() {
 			shift
 		elif [[ "$1" == "-ub" || "$1" == "-bu" ]]; then
 			local decoration="1;4"
-			shift
-		elif ((30 <= $1 && $1 <= 37)); then
-			local color_code="$1"
 			shift
 		else
 			break
@@ -51,6 +52,10 @@ alias cyan="__echo_color_8 36"
 alias white="__echo_color_8 37"
 
 function c256() {
+	if [[ "$1" == 0 ]] || ((1 <= $1 && $1 <= 256)); then
+		local color_code="$1"
+		shift
+	fi
 	while [[ -n "$1" ]]; do
 		if [[ "$1" == "-b" ]]; then
 			local decoration="1"
@@ -60,9 +65,6 @@ function c256() {
 			shift
 		elif [[ "$1" == "-ub" || "$1" == "-bu" ]]; then
 			local decoration="1;4"
-			shift
-		elif [[ "$1" == 0 ]] || ((1 <= $1 && $1 <= 256)); then
-			local color_code="$1"
 			shift
 		else
 			break
