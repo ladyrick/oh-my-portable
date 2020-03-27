@@ -20,7 +20,7 @@ There are already some config files in `rc.d` recommanded by oh-my-portable.
 
 You can edit these files directly, or create a directory `rc.d.private`, and constructure configure files just like which in `rc.d`.
 
-## 2. Config
+## 2. Config and install
 
 1. Edit `config.sh` in root folder.
 2. Run `./oh-my-portable.sh` and restart shell.
