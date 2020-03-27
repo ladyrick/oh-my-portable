@@ -16,35 +16,17 @@ It's totally session-level configure.
 
 ## 1. Prepare your configures.
 
-There are already some configures in rc.d recommanded by oh-my-portable.
+There are already some config files in `rc.d` recommanded by oh-my-portable.
 
-To prepare your own configure, make a directory `rc.d.private`, and constructure configure files just like which in `rc.d`.
+You can edit these files directly, or create a directory `rc.d.private`, and constructure configure files just like which in `rc.d`.
 
-## 2. Install
+## 2. Config
 
-There are two different ways to install.
-
-### 2.1 Only patch ssh
-
+1. Edit `config.sh` in root folder.
+2. Run `./oh-my-portable.sh` and restart shell.
+```shell 
+bash ./oh-my-portable.sh
 ```
-./oh-my-portable.sh is
-```
-
-In this way, you can only patch the command `ssh`.
-
-By doing this, every time you login a remote host via `ssh`, the configures will be passed as well.
-
-But your own bash would not be effected.
-
-### 2.2 Install to your bash
-
-```
-./oh-my-portable.sh i
-```
-
-In this way, not only the command `ssh`, but also your `bash`, is patched.
-
-So you can keep a same experience in your local bash and the remote host.
 
 ## 3. Refresh oh-my-portable
 
