@@ -52,6 +52,7 @@ alias cyan="__echo_color_8 36"
 alias white="__echo_color_8 37"
 
 function c256() {
+	[[ ! "$1" =~ ^[0-9]+$ ]] && echo "need a color code (0-256)" && return 1
 	if [[ "$1" == 0 ]] || ((1 <= $1 && $1 <= 256)); then
 		local color_code="$1"
 		shift
