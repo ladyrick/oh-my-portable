@@ -11,3 +11,6 @@ __portable_git=true
 
 # Set to false will make bash config not portable.
 __portable_bash=true
+
+# Set to false will make scripts not portable.
+__portable_script=true
