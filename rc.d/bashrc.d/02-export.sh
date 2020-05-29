@@ -1,5 +1,5 @@
 # control bash history
-export HISTCONTROL=ignoreboth
+HISTCONTROL=ignoreboth
 shopt -s histverify
 shopt -s checkwinsize
 
