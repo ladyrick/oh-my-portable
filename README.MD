@@ -40,4 +40,4 @@ Every time you change your configure in `rc.d` or `rc.d.private`, please run thi
 There is a demo video shows how to install oh-my-portable, how to write a script and then use it in remote hosts.
 It's pretty easy to use.
 
-https://ladyrick.github.io/oh-my-portable/doc/demo.mp4"
+https://ladyrick.github.io/oh-my-portable/doc/demo.mp4
