@@ -1,7 +1,7 @@
 [[ -f ~/.bashrc ]] || touch ~/.bashrc
 grep "source \"$OH_MY_PORTABLE/oh-my-portable.sh\"" ~/.bashrc &>/dev/null || {
 	sed -i '/source \".*oh-my-portable.sh\"/d' ~/.bashrc
-	echo "source \"$OH_MY_PORTABLE/oh-my-portable.sh\"" >>~/.bashrc
+	echo -e "\nsource \"$OH_MY_PORTABLE/oh-my-portable.sh\"" >>~/.bashrc
 }
 
 function __backup_and_copy() {
