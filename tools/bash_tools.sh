@@ -14,12 +14,15 @@ function ssh() {
 			if (($# > 1)); then
 				ssh_args+=("$@")
 			else
-				ssh_args+=("$1" "-t" "bash --rcfile <(cat /etc/profile
-for p in ~/.bash_profile ~/.bash_login ~/.profile; do [[ -r \$p ]] && cat \$p && break;done
-cat << 'eof_ssh_patch___rand_key'
-$(cat $OH_MY_PORTABLE/dist/remote_profile.sh)
-eof_ssh_patch___rand_key
-)")
+				__OH_MY_PORTABLE_REMOTE_PROFILE_STRING=${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING:-$(cat $OH_MY_PORTABLE/dist/remote_profile.sh)}
+				ssh_args+=("$1" "-t" "bash --rcfile <(
+					cat /etc/profile
+					{ cat ~/.bash_profile || cat ~/.bash_login || cat ~/.profile; } 2>/dev/null
+					echo 'export __OH_MY_PORTABLE_REMOTE_PROFILE_STRING='\"'\"'$(
+						echo "$__OH_MY_PORTABLE_REMOTE_PROFILE_STRING" | sed "s/'/'\"'\"'\"'\"'\"'\"'\"'\"'/g"
+					)'\"'\"
+					echo 'source <(echo \"\${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}\")'
+				)")
 			fi
 			set --
 			;;
@@ -29,7 +32,11 @@ eof_ssh_patch___rand_key
 }
 
 function refresh_oh_my_portable() {
-	bash $OH_MY_PORTABLE/oh-my-portable.sh 1>/dev/null && source ~/.bashrc && echo Finished. || echo Error.
+	if [[ "$OH_MY_PORTABLE" ]]; then
+		bash $OH_MY_PORTABLE/oh-my-portable.sh 1>/dev/null && source ~/.bashrc && echo Finished. || echo Error.
+	else
+		echo "You are in remote host. Unable to refresh oh-my-portable."
+	fi
 }
 
 ######################################################################################################

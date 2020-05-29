@@ -19,7 +19,7 @@ endif
 
 function s:SID()
     return matchstr(expand('<sfile>'), '<SNR>\m\zs\d\+\ze_SID$')
-endfun
+endfunction
 
 function s:Start()
     if g:searchant_all
