@@ -16,12 +16,12 @@ function ssh() {
 			else
 				__OH_MY_PORTABLE_REMOTE_PROFILE_STRING=${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING:-$(cat $OH_MY_PORTABLE/dist/remote_profile.sh)}
 				ssh_args+=("$1" "-t" "bash --rcfile <(
-					cat /etc/profile
-					{ cat ~/.bash_profile || cat ~/.bash_login || cat ~/.profile; } 2>/dev/null
-					echo 'export __OH_MY_PORTABLE_REMOTE_PROFILE_STRING='\"'\"'$(
-						echo "$__OH_MY_PORTABLE_REMOTE_PROFILE_STRING" | sed "s/'/'\"'\"'\"'\"'\"'\"'\"'\"'/g"
-					)'\"'\"
-					echo 'source <(echo \"\${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}\")'
+				cat /etc/profile
+				{ cat ~/.bash_profile || cat ~/.bash_login || cat ~/.profile; } 2>/dev/null
+				echo 'export __OH_MY_PORTABLE_REMOTE_PROFILE_STRING='\"'\"'$(
+					echo "$__OH_MY_PORTABLE_REMOTE_PROFILE_STRING" | sed "s/'/'\"'\"'\"'\"'\"'\"'\"'\"'/g"
+				)'\"'\"
+				echo 'source <(echo \"\${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}\")'
 				)")
 			fi
 			set --
