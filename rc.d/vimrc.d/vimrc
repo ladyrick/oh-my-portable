@@ -12,3 +12,5 @@
 :set hlsearch
 :set backspace=indent,eol,start
 :hi Search cterm=None ctermfg=black ctermbg=LightMagenta
+nnoremap q: <nop>
+nnoremap Q <nop>
