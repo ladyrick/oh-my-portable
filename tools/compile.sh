@@ -66,6 +66,7 @@ function __make_remote_profile() {
 
 function __make_local_profile() {
 	local local_profile="$OH_MY_PORTABLE/dist/local_profile.sh"
+	echo "unset __OH_MY_PORTABLE_REMOTE_PROFILE_STRING" >>"$local_profile"
 	__merge_files $OH_MY_PORTABLE/tools/bash_tools.sh >>"$local_profile"
 	[[ "$OH_MY_PORTABLE_CONFIG" =~ o ]] && return
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ b ]]; then
