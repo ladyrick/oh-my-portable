@@ -11,7 +11,7 @@ function __backup_and_copy() {
 }
 
 if [[ "$OH_MY_PORTABLE_CONFIG" =~ v ]]; then
-	__backup_and_copy $OH_MY_PORTABLE/dist/vimrc ~/.vimrc 2>/dev/null
+	__backup_and_copy $OH_MY_PORTABLE/dist/.vimrc ~/.vimrc 2>/dev/null
 fi
 if [[ "$OH_MY_PORTABLE_CONFIG" =~ g ]]; then
 	__backup_and_copy $OH_MY_PORTABLE/dist/.gitconfig ~/.gitconfig 2>/dev/null

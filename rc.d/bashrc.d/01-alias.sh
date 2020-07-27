@@ -1,4 +1,11 @@
-alias ls="ls --color=auto"
+case "$(uname)" in
+Linux)
+	alias ls="ls --color=auto"
+;;
+Darwin)
+	alias ls="ls -G"
+;;
+esac
 alias ll="ls -AlhF"
 alias la="ls -A"
 alias l.="ls -d .[!.]?* ..?* 2>/dev/null || :"

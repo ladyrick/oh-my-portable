@@ -11,7 +11,7 @@ function __make_remote_profile() {
 	local remote_profile="$OH_MY_PORTABLE/dist/remote_profile.sh"
 	touch "$remote_profile" || return 1
 
-	__merge_files $OH_MY_PORTABLE/tools/bash_tools.sh >>"$remote_profile"
+	__merge_files $OH_MY_PORTABLE/tools/core.sh >>"$remote_profile"
 
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ v ]]; then
 		# portable vim config
@@ -20,7 +20,7 @@ function __make_remote_profile() {
 			function vim() {
 				/usr/bin/env vim -u <(echo '
 					:set nocompatible
-					$(__merge_files $OH_MY_PORTABLE/rc.d/vimrc.d/* $OH_MY_PORTABLE/rc.d.private/vimrc.d/* | sed "s/'/'\"'\"'/g")
+					$(__merge_files $OH_MY_PORTABLE/rc.d/vimrc.d/* $OH_MY_PORTABLE/rc.d.private/vimrc.d/* | sed "s/'/'\\\\''/g")
 				') "\$@"
 			}
 
@@ -55,7 +55,7 @@ function __make_remote_profile() {
 
 				function $file_name {
 					${file_shebang:2} <(echo '
-						$(cat "$script_file" | sed "s/'/'\"'\"'/g")
+						$(cat "$script_file" | sed "s/'/'\\\\''/g")
 					') "\$@"
 				}
 
@@ -67,13 +67,13 @@ function __make_remote_profile() {
 function __make_local_profile() {
 	local local_profile="$OH_MY_PORTABLE/dist/local_profile.sh"
 	echo "unset __OH_MY_PORTABLE_REMOTE_PROFILE_STRING" >>"$local_profile"
-	__merge_files $OH_MY_PORTABLE/tools/bash_tools.sh >>"$local_profile"
+	__merge_files $OH_MY_PORTABLE/tools/core.sh >>"$local_profile"
 	[[ "$OH_MY_PORTABLE_CONFIG" =~ o ]] && return
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ b ]]; then
 		__merge_files $OH_MY_PORTABLE/rc.d/bashrc.d/* $OH_MY_PORTABLE/rc.d.private/bashrc.d/* >>"$local_profile"
 	fi
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ v ]]; then
-		__merge_files $OH_MY_PORTABLE/rc.d/vimrc.d/* $OH_MY_PORTABLE/rc.d.private/vimrc.d/* >>$OH_MY_PORTABLE/dist/vimrc
+		__merge_files $OH_MY_PORTABLE/rc.d/vimrc.d/* $OH_MY_PORTABLE/rc.d.private/vimrc.d/* >>$OH_MY_PORTABLE/dist/.vimrc
 	fi
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ g ]]; then
 		eval $(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | python3 $OH_MY_PORTABLE/tools/git_with_config.py local_profile)
