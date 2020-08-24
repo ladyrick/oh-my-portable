@@ -9,8 +9,8 @@ function keygen() {
 		}
 		((keylen <= 0)) && return 0
 	fi
-	key=$(openssl rand -hex $(((keylen + 1) / 2)))
-	echo ${key:0:${keylen}}
+	local choices="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	python -c "import random; print(''.join([random.choice('$choices') for _ in range($keylen)]))"
 }
 
 function __echo_color_8() {
