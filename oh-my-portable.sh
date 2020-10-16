@@ -12,5 +12,6 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
 	source $OH_MY_PORTABLE/tools/compile.sh
 	source $OH_MY_PORTABLE/tools/install.sh
 else
-	source $OH_MY_PORTABLE/dist/local_profile.sh
+	# when your remote host has installed, don't use their.
+	[[ -z ${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING+x} ]] && source $OH_MY_PORTABLE/dist/local_profile.sh
 fi
