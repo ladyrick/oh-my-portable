@@ -50,7 +50,7 @@ function ssh() {
 
 function refresh_oh_my_portable() {
 	if [[ "$OH_MY_PORTABLE" ]]; then
-		bash $OH_MY_PORTABLE/oh-my-portable.sh 1>/dev/null && source ~/.bashrc && echo Finished. || echo Error.
+		bash $OH_MY_PORTABLE/oh-my-portable.sh --no-init 1>/dev/null && source ~/.bashrc && echo Finished. || echo Error.
 	else
 		echo "You are in remote host. Unable to refresh oh-my-portable."
 	fi

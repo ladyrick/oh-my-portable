@@ -1,8 +1,10 @@
-[[ -f ~/.bashrc ]] || touch ~/.bashrc
-grep "source \"$OH_MY_PORTABLE/oh-my-portable.sh\"" ~/.bashrc &>/dev/null || {
-	sed -i '/source \".*oh-my-portable.sh\"/d' ~/.bashrc
-	echo -e "\nsource \"$OH_MY_PORTABLE/oh-my-portable.sh\"" >>~/.bashrc
-}
+if [[ ! "$1" == "--no-init" ]]; then
+	[[ -f ~/.bashrc ]] || touch ~/.bashrc
+	grep "source \"$OH_MY_PORTABLE/oh-my-portable.sh\"" ~/.bashrc &>/dev/null || {
+		sed -i '/source \".*oh-my-portable.sh\"/d' ~/.bashrc
+		echo -e "\nsource \"$OH_MY_PORTABLE/oh-my-portable.sh\"" >>~/.bashrc
+	}
+fi
 
 function __backup_and_copy() {
 	[[ -z "$1" || -z "$2" ]] && return 1

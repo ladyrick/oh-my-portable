@@ -9,7 +9,7 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
 	[[ "$__portable_bash" == "true" ]] && OH_MY_PORTABLE_CONFIG=b$OH_MY_PORTABLE_CONFIG
 	[[ "$__portable_script" == "true" ]] && OH_MY_PORTABLE_CONFIG=s$OH_MY_PORTABLE_CONFIG
 	source $OH_MY_PORTABLE/tools/compile.sh
-	source $OH_MY_PORTABLE/tools/install.sh
+	source $OH_MY_PORTABLE/tools/install.sh $1
 else
 	# when your remote host has installed, don't use their.
 	if [[ -z ${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING+x} ]]; then
