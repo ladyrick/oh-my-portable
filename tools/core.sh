@@ -29,7 +29,7 @@ function ssh() {
 	if [[ -z "${host_set}" ]]; then
 		/usr/bin/env ssh "${ssh_args[@]}"
 	elif [[ -z "${cmd_set}" ]]; then
-		__OH_MY_PORTABLE_REMOTE_PROFILE_STRING=${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING:-$(cat $OH_MY_PORTABLE/dist/remote_profile.sh)}
+		local __OH_MY_PORTABLE_REMOTE_PROFILE_STRING=${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING:-$(cat $OH_MY_PORTABLE/dist/remote_profile.sh)}
 		/usr/bin/env ssh -t "${ssh_args[@]}" "$host" "bash --rcfile <(
 		echo 'export __OH_MY_PORTABLE_REMOTE_PROFILE_STRING='\\''${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING//\'/\'\\\'\'\\\'\\\'\'\'\\\'\'}'\\'
 		cat /etc/profile
@@ -37,7 +37,7 @@ function ssh() {
 		echo 'source <(echo \"\${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}\")'
 		)"
 	else
-		__OH_MY_PORTABLE_REMOTE_PROFILE_STRING=${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING:-$(cat $OH_MY_PORTABLE/dist/remote_profile.sh)}
+		local __OH_MY_PORTABLE_REMOTE_PROFILE_STRING=${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING:-$(cat $OH_MY_PORTABLE/dist/remote_profile.sh)}
 		/usr/bin/env ssh -t "${ssh_args[@]}" "$host" "source <(
 		echo 'export __OH_MY_PORTABLE_REMOTE_PROFILE_STRING='\\''${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING//\'/\'\\\'\'\\\'\\\'\'\'\\\'\'}'\\'
 		cat /etc/profile
