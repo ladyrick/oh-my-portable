@@ -1,0 +1,10 @@
+#!/usr/bin/awk -f
+/Fatal/  {print "\033[1;35m" $0 "\033[0m"; next}
+/Error/  {print "\033[1;31m" $0 "\033[0m"; next}
+/Warn/   {print "\033[1;33m" $0 "\033[0m"; next}
+/Notice/ {print "\033[1;32m" $0 "\033[0m"; next}
+/Info/   {print "\033[1;36m" $0 "\033[0m"; next}
+/Debug/  {print "\033[1;34m" $0 "\033[0m"; next}
+/Trace/  {print "\033[1;34m" $0 "\033[0m"; next}
+
+# echo -e 'Fatal\nError\nWarn\nNotice\nInfo\nDebug\nTrace' | colorlog
