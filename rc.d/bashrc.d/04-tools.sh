@@ -1,16 +1,14 @@
 function keygen() {
-	declare -i keylen
+	local keylen
 	if [[ -z "$1" ]]; then
 		keylen=32
+	elif [[ "$1" =~ ^[1-9][0-9]*$ ]]; then
+		keylen=$1
 	else
-		keylen="$1" || {
-			echo "need an integer."
-			return 1
-		}
-		((keylen <= 0)) && return 0
+		echo "invalid parameter. need a positive integer" && return 1
 	fi
 	local choices="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	python -c "import random; print(''.join([random.choice('$choices') for _ in range($keylen)]))"
+	python -c "import random as r,time;c='$choices';r.seed(time.time());print(''.join(r.choice(c) for _ in range($keylen)))"
 }
 
 function __echo_color_8() {
