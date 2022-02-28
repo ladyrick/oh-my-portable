@@ -1,14 +1,36 @@
 function keygen() {
-	local keylen
-	if [[ -z "$1" ]]; then
-		keylen=32
-	elif [[ "$1" =~ ^[1-9][0-9]*$ ]]; then
-		keylen=$1
+	local keylen=32
+	local level=1
+	for arg in "$@"; do
+		if [[ "$arg" =~ ^[1-9][0-9]*$ ]]; then
+			keylen="$arg"
+		elif [[ "$arg" == "-w" ]]; then
+			if [[ "$level" == 1 || "$level" == 0 ]]; then
+				level=0
+			else
+				echo "-w and -s cannot be set at the same time"
+				return 1
+			fi
+		elif [[ "$arg" == "-s" ]]; then
+			if [[ "$level" == 1 || "$level" == 2 ]]; then
+				level=2
+			else
+				echo "-w and -s cannot be set at the same time"
+				return 1
+			fi
+		else
+			echo "invalid parameter: \"$arg\""
+			return 1
+		fi
+	done
+	if [[ "$level" == 0 ]]; then
+		local choices='abcdef0123456789'
+	elif [[ "$level" == 1 ]]; then
+		local choices='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 	else
-		echo "invalid parameter. need a positive integer" && return 1
+		local choices='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"'"'"'`~!@#$%^&*()_+-=[{]}\|;:,<.>/?'
 	fi
-	local choices="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	python -c "import random as r,time;c='$choices';r.seed(time.time());print(''.join(r.choice(c) for _ in range($keylen)))"
+	python -c "import random as r,time;c=r'''$choices''';r.seed(time.time());print(''.join(r.choice(c) for _ in range($keylen)))"
 }
 
 function __echo_color_8() {
