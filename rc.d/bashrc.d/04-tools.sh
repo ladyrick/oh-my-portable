@@ -102,9 +102,5 @@ function c256() {
 }
 
 function hostip() {
-	if [[ "$1" == "-6" ]]; then
-		host $(hostname) | awk '/has IPv6 address/{print $NF}'
-	else
-		host $(hostname) | awk '/has address/{print $NF}'
-	fi
+	hostname -I | cut -d ' ' -f 1
 }
