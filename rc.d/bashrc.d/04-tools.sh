@@ -126,7 +126,11 @@ if [[ -d "$KCONFIG_DIR" ]]; then
 		fi
 	}
 	__kconfig_comp() {
-		COMPREPLY=($(compgen -W "$(ls "$KCONFIG_DIR")" "${COMP_WORDS[${#COMP_WORDS[@]}-1]}"))
+		if [[ ${#COMP_WORDS[@]} == 2 ]]; then
+			COMPREPLY=($(compgen -W "$(ls "$KCONFIG_DIR")" "${COMP_WORDS[1]}"))
+		else
+			COMPREPLY=()
+		fi
 	}
 	complete -F __kconfig_comp kconfig
 fi
