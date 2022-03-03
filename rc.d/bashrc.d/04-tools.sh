@@ -118,3 +118,15 @@ if [[ "$TERM_PROGRAM" == "vscode" ]]; then
 		fi
 	}
 fi
+
+if [[ -d "$KCONFIG_DIR" ]]; then
+	function kconfig() {
+		if [[ -f "$KCONFIG_DIR/$1" ]]; then
+			export KUBECONFIG="$KCONFIG_DIR/$1"
+		fi
+	}
+	__kconfig_comp() {
+		COMPREPLY=($(compgen -W "$(ls "$KCONFIG_DIR")" "${COMP_WORDS[${#COMP_WORDS[@]}-1]}"))
+	}
+	complete -F __kconfig_comp kconfig
+fi
