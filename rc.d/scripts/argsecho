@@ -1,5 +1,5 @@
-#!/usr/bin/env -S python -u
+#!/usr/bin/env python
 import sys
 
 for ind, arg in enumerate(sys.argv):
-    print("${}: {}".format(ind, arg))
+    print("${}: {}".format(ind, arg), flush=True)
