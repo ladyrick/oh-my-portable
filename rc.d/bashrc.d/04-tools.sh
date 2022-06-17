@@ -105,20 +105,6 @@ function hostip() {
 	hostname -I | cut -d ' ' -f 1
 }
 
-if [[ "$TERM_PROGRAM" == "vscode" ]]; then
-	function code() {
-		__bin_dir="$(dirname "$VSCODE_GIT_ASKPASS_NODE")/bin"
-		if [ -f "$__bin_dir/code" ]; then
-			"$__bin_dir/code" "$@"
-		elif [ -f "$__bin_dir/remote-cli/code" ]; then
-			"$__bin_dir/remote-cli/code" "$@"
-		else
-			echo '"code" script not found'
-			return 127
-		fi
-	}
-fi
-
 if [[ -d "$KCONFIG_DIR" ]]; then
 	function kconfig() {
 		if [[ -f "$KCONFIG_DIR/$1" ]]; then
