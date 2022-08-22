@@ -14,3 +14,4 @@
 :hi Search cterm=None ctermfg=black ctermbg=LightMagenta
 nnoremap q: <nop>
 nnoremap Q <nop>
+:set ttymouse=sgr
