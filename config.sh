@@ -14,3 +14,6 @@ __portable_bash=true
 
 # Set to false will make scripts not portable.
 __portable_script=true
+
+# Set to false will make tmux config not portable.
+__portable_tmux=true
