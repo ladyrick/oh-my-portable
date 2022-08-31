@@ -89,7 +89,18 @@ function __make_local_profile() {
 		__merge_files $OH_MY_PORTABLE/rc.d/vimrc.d/* $OH_MY_PORTABLE/rc.d.private/vimrc.d/* >>$OH_MY_PORTABLE/dist/.vimrc
 	fi
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ g ]]; then
-		eval $(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | python3 $OH_MY_PORTABLE/tools/git_with_config.py local_profile)
+		if which git >/dev/null; then
+			eval "$(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | {
+				for __python in python{,2,3}; do
+					if which $__python >/dev/null; then
+						$__python $OH_MY_PORTABLE/tools/git_with_config.py local_profile || python3 $OH_MY_PORTABLE/tools/git_with_config.py local_profile
+						break
+					fi
+				done
+			})"
+		else
+			echo 'git not installed. skip.'
+		fi
 	fi
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ s ]]; then
 		cp $OH_MY_PORTABLE/rc.d/scripts/* $OH_MY_PORTABLE/rc.d.private/scripts/* $OH_MY_PORTABLE/dist/scripts/ 2>/dev/null
@@ -103,5 +114,3 @@ function __make_local_profile() {
 
 __make_local_profile
 __make_remote_profile
-
-python3 $OH_MY_PORTABLE/tools/pre_run.py $OH_MY_PORTABLE/dist/*.sh

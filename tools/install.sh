@@ -22,4 +22,4 @@ if [[ "$OH_MY_PORTABLE_CONFIG" =~ t ]]; then
 	__backup_and_copy $OH_MY_PORTABLE/dist/.tmux.conf ~/.tmux.conf 2>/dev/null
 fi
 
-echo Finished. Please restart the shell or run \"source "~/.bashrc"\"
+[[ "$2" == "--no-prompt" ]] || echo Finished. Please restart the shell or run '"source ~/.bashrc"'
