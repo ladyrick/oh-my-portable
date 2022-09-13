@@ -23,6 +23,7 @@ function keygen() {
 			return 1
 		fi
 	done
+	unset arg
 	if [[ "$level" == 0 ]]; then
 		local choices='abcdef0123456789'
 	elif [[ "$level" == 1 ]]; then

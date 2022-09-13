@@ -63,7 +63,7 @@ function __make_remote_profile() {
 		done
 	fi
 
-	if [[ "$OH_MY_PORTABLE_CONFIG" =~ v ]]; then
+	if [[ "$OH_MY_PORTABLE_CONFIG" =~ t ]]; then
 		# portable tmux config
 		cat >>"$remote_profile" <<-EOF
 
