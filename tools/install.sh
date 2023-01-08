@@ -15,7 +15,8 @@ if [[ "$OH_MY_PORTABLE_CONFIG" =~ v ]]; then
 fi
 
 if [[ "$OH_MY_PORTABLE_CONFIG" =~ g ]]; then
-	__insert_content ~/.gitconfig "[include]\n\tpath = $OH_MY_PORTABLE/dist/.gitconfig"
+	__insert_content ~/.gitconfig "[include]
+	path = $OH_MY_PORTABLE/dist/.gitconfig"
 fi
 
 if [[ "$OH_MY_PORTABLE_CONFIG" =~ t ]]; then
