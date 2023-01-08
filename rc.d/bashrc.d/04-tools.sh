@@ -31,7 +31,7 @@ function keygen() {
 	else
 		local choices='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"'"'"'`~!@#$%^&*()_+-=[{]}\|;:,<.>/?'
 	fi
-	python -c "import random as r,time;c=r'''$choices''';r.seed(time.time());print(''.join(r.choice(c) for _ in range($keylen)))"
+	python3 -c "import random as r,time;c=r'''$choices''';r.seed(time.time());print(''.join(r.choice(c) for _ in range($keylen)))"
 }
 
 function __echo_color_8() {
@@ -121,3 +121,7 @@ if [[ -d "$KCONFIG_DIR" ]]; then
 	}
 	complete -F __kconfig_comp kconfig
 fi
+
+function bssh() {
+	/usr/bin/env ssh "$@"
+}

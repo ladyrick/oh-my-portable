@@ -1,25 +1,25 @@
-if [[ ! "$1" == "--no-init" ]]; then
-	[[ -f ~/.bashrc ]] || touch ~/.bashrc
-	grep "source \"$OH_MY_PORTABLE/oh-my-portable.sh\"" ~/.bashrc &>/dev/null || {
-		sed -i '/source \".*oh-my-portable.sh\"/d' ~/.bashrc
-		echo -e "\nsource \"$OH_MY_PORTABLE/oh-my-portable.sh\"" >>~/.bashrc
-	}
-fi
+source $OH_MY_PORTABLE/tools/parse_config.sh
+source $OH_MY_PORTABLE/tools/compile.sh
 
-function __backup_and_copy() {
-	[[ -z "$1" || -z "$2" ]] && return 1
-	[[ -f "$2" && ! -f "$2".oh_my_portable_backup ]] && cp "$2" "$2".oh_my_portable_backup
-	cp "$1" "$2" 2>/dev/null
+function __insert_content() {
+	local target_file="$1"
+	local content="$2"
+	local comment_mark="${3:-#}"
+	python3 $OH_MY_PORTABLE/tools/insert_content.py "$target_file" "$content" "$comment_mark"
 }
 
+__insert_content ~/.bashrc "source '$OH_MY_PORTABLE/oh-my-portable.sh'"
+
 if [[ "$OH_MY_PORTABLE_CONFIG" =~ v ]]; then
-	__backup_and_copy $OH_MY_PORTABLE/dist/.vimrc ~/.vimrc 2>/dev/null
-fi
-if [[ "$OH_MY_PORTABLE_CONFIG" =~ g ]]; then
-	__backup_and_copy $OH_MY_PORTABLE/dist/.gitconfig ~/.gitconfig 2>/dev/null
-fi
-if [[ "$OH_MY_PORTABLE_CONFIG" =~ t ]]; then
-	__backup_and_copy $OH_MY_PORTABLE/dist/.tmux.conf ~/.tmux.conf 2>/dev/null
+	__insert_content ~/.vimrc "source $OH_MY_PORTABLE/dist/.vimrc" '"'
 fi
 
-[[ "$2" == "--no-prompt" ]] || echo Finished. Please restart the shell or run '"source ~/.bashrc"'
+if [[ "$OH_MY_PORTABLE_CONFIG" =~ g ]]; then
+	__insert_content ~/.gitconfig "[include]\n\tpath = $OH_MY_PORTABLE/dist/.gitconfig"
+fi
+
+if [[ "$OH_MY_PORTABLE_CONFIG" =~ t ]]; then
+	__insert_content ~/.tmux.conf "source '$OH_MY_PORTABLE/dist/.tmux.conf'"
+fi
+
+[[ -n "$OH_MY_PORTABLE_REFRESH" ]] || echo 'Finished. Please restart the shell or run "source ~/.bashrc"'

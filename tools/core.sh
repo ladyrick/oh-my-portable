@@ -1,3 +1,5 @@
+############################################### core ###############################################
+
 shopt -s expand_aliases
 
 function ssh() {
@@ -48,20 +50,17 @@ function ssh() {
 	fi
 }
 
-function refresh_oh_my_portable() {
-	if [[ "$OH_MY_PORTABLE" ]]; then
-		bash $OH_MY_PORTABLE/oh-my-portable.sh --no-init --no-prompt && source ~/.bashrc && echo Finished. || echo Error.
-	else
-		echo "You are in remote host. Unable to refresh oh-my-portable."
-	fi
-}
+if [[ "$OH_MY_PORTABLE" ]]; then
+	function refresh_oh_my_portable() {
+		OH_MY_PORTABLE_REFRESH=1 bash $OH_MY_PORTABLE/oh-my-portable.sh && source ~/.bashrc && echo Finished. || echo Error.
+	}
+	function oh-my-portable-in-script() {
+		echo
+		echo "Add this line to use oh-my-portable in a script:"
+		echo
+		echo -e "\e[32;1msource \"$OH_MY_PORTABLE/oh-my-portable.sh\"\e[0m"
+		echo
+	}
+fi
 
-function oh-my-portable-in-script() {
-	echo
-	echo "Add this line to use oh-my-portable in a script:"
-	echo
-	echo -e "\e[32;1msource \"$OH_MY_PORTABLE/oh-my-portable.sh\"\e[0m"
-	echo
-}
-
-######################################################################################################
+############################################### core ###############################################
