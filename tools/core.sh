@@ -40,7 +40,7 @@ function ssh() {
 		)"
 	else
 		local __OH_MY_PORTABLE_REMOTE_PROFILE_STRING=${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING:-$(cat $OH_MY_PORTABLE/dist/remote_profile.sh)}
-		/usr/bin/env ssh -t "${ssh_args[@]}" "$host" "source <(
+		/usr/bin/env ssh -tq "${ssh_args[@]}" "$host" "source <(
 		echo 'export __OH_MY_PORTABLE_REMOTE_PROFILE_STRING='\\''${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING//\'/\'\\\'\'\\\'\\\'\'\'\\\'\'}'\\'
 		cat /etc/profile
 		{ cat ~/.bash_profile || cat ~/.bash_login || cat ~/.profile; } 2>/dev/null
