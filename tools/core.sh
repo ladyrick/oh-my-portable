@@ -52,7 +52,7 @@ function ssh() {
 
 if [[ "$OH_MY_PORTABLE" ]]; then
 	function refresh_oh_my_portable() {
-		OH_MY_PORTABLE_REFRESH=1 bash $OH_MY_PORTABLE/oh-my-portable.sh && source ~/.bashrc && echo Finished. || echo Error.
+		source $OH_MY_PORTABLE/oh-my-portable.sh && echo Finished. || echo Error.
 	}
 	function oh-my-portable-in-script() {
 		echo

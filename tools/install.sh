@@ -23,4 +23,4 @@ if [[ "$OH_MY_PORTABLE_CONFIG" =~ t ]]; then
 	__insert_content ~/.tmux.conf "source '$OH_MY_PORTABLE/dist/.tmux.conf'"
 fi
 
-[[ -n "$OH_MY_PORTABLE_REFRESH" ]] || echo 'Finished. Please restart the shell or run "source ~/.bashrc"'
+[[ -n "$OH_MY_PORTABLE_NO_INSTALL_PROMPT" ]] || echo 'Finished. Please restart the shell or run "source ~/.bashrc"'
