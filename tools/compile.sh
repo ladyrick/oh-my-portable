@@ -29,13 +29,15 @@ function __make_remote_profile() {
 
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ g ]]; then
 		# portable git config
-		cat >>"$remote_profile" <<-EOF
+		if which git >/dev/null; then
+			cat >>"$remote_profile" <<-EOF
 
-			function git() {
-				$(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | python3 $OH_MY_PORTABLE/tools/git_with_config.py remote_profile)
-			}
+				function git() {
+					$(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | python3 $OH_MY_PORTABLE/tools/git_with_config.py remote_profile)
+				}
 
-		EOF
+			EOF
+		fi
 	fi
 
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ b ]]; then
@@ -98,8 +100,6 @@ function __make_local_profile() {
 					fi
 				done
 			})"
-		else
-			echo 'git not installed. skip.'
 		fi
 	fi
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ s ]]; then
