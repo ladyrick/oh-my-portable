@@ -103,7 +103,11 @@ function c256() {
 }
 
 function hostip() {
-	hostname -i | cut -d ' ' -f 1
+	if which ip >/dev/null; then
+		ip a | grep -E 'inet .* (eth0|en0)' | awk '{print $2}' | cut -d '/' -f 1
+	elif ! { ifconfig eth0 2>/dev/null || ifconfig en0 2>/dev/null; } | grep -Eo 'inet [^ ]+' --color=never | awk '{print $2}'; then
+		hostname -i | awk '{print $1}'
+	fi
 }
 
 if [[ -d "$KCONFIG_DIR" ]]; then
