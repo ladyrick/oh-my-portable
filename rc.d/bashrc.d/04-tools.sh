@@ -103,7 +103,7 @@ function c256() {
 }
 
 function hostip() {
-	hostname -I | cut -d ' ' -f 1
+	hostname -i | cut -d ' ' -f 1
 }
 
 if [[ -d "$KCONFIG_DIR" ]]; then
