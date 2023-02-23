@@ -22,6 +22,7 @@ if os.path.exists(target_file):
         file_content = f.read()
     replace_file_content, n = re.subn(pattern, replace_content, file_content, re.MULTILINE)
     if n == 0:
+        print("\033[32;1madded to {}\033[0m{}".format(target_file, replace_content))
         replace_file_content = replace_file_content + replace_content
 else:
     replace_file_content = replace_content

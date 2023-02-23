@@ -22,10 +22,10 @@ You can edit these files directly, or create a directory `rc.d.private`, and con
 
 ## 2. Config and install
 
-1. Edit `config.sh` in root folder.
-2. Run `./oh-my-portable.sh` and restart shell.
+1. (Optional) Edit `config.sh` in root folder.
+2. Run `source ./oh-my-portable.sh`
 ```shell 
-bash ./oh-my-portable.sh
+source ./oh-my-portable.sh
 ```
 
 ## 3. Refresh oh-my-portable
