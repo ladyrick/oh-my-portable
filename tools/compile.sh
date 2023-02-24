@@ -33,7 +33,7 @@ function __make_remote_profile() {
 			cat >>"$remote_profile" <<-EOF
 
 				function git() {
-					$(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | python3 $OH_MY_PORTABLE/tools/git_with_config.py remote_profile)
+					$(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | bash $OH_MY_PORTABLE/tools/git_with_config.sh remote)
 				}
 
 			EOF
@@ -92,14 +92,7 @@ function __make_local_profile() {
 	fi
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ g ]]; then
 		if which git >/dev/null; then
-			eval "$(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | {
-				for __python in python{,2,3}; do
-					if which $__python >/dev/null; then
-						$__python $OH_MY_PORTABLE/tools/git_with_config.py local_profile || python3 $OH_MY_PORTABLE/tools/git_with_config.py local_profile
-						break
-					fi
-				done
-			})"
+			eval "$(git config -f <(__merge_files $OH_MY_PORTABLE/rc.d/gitconfig.d/* $OH_MY_PORTABLE/rc.d.private/gitconfig.d/*) --list | bash "$OH_MY_PORTABLE/tools/git_with_config.sh" local)"
 		fi
 	fi
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ s ]]; then
