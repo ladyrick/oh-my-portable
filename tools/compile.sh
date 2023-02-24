@@ -96,7 +96,8 @@ function __make_local_profile() {
 		fi
 	fi
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ s ]]; then
-		cp $OH_MY_PORTABLE/rc.d/scripts/* $OH_MY_PORTABLE/rc.d.private/scripts/* $OH_MY_PORTABLE/dist/scripts/ 2>/dev/null
+		cp -f $OH_MY_PORTABLE/rc.d/scripts/* $OH_MY_PORTABLE/dist/scripts/ 2>/dev/null
+		cp -f $OH_MY_PORTABLE/rc.d.private/scripts/* $OH_MY_PORTABLE/dist/scripts/ 2>/dev/null
 		chmod a+x $OH_MY_PORTABLE/dist/scripts/* 2>/dev/null
 		echo 'export PATH="$PATH:$OH_MY_PORTABLE/dist/scripts"' >>"$local_profile"
 	fi
