@@ -16,5 +16,3 @@ fi
 if [[ "$OH_MY_PORTABLE_CONFIG" =~ t ]]; then
 	bash $OH_MY_PORTABLE/tools/insert_content.sh ~/.tmux.conf "source '$OH_MY_PORTABLE/dist/.tmux.conf'"
 fi
-
-[[ -n "$OH_MY_PORTABLE_NO_INSTALL_PROMPT" ]] || echo 'Finished. Please restart the shell or run "source ~/.bashrc"'

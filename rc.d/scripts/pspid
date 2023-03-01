@@ -1,0 +1,28 @@
+#!/bin/bash
+# used to show all children processes of given pid in tree view.
+
+pid="$1"
+
+shopt -s extglob
+
+case "$pid" in
+"0" | "1" | "")
+	ps auxf
+	;;
++([0-9]))
+	showed_pid=""
+	while read line; do
+		read cp cpp <<<"$line"
+		if [[ $cp == $pid ]]; then
+			showed_pid=",$cp,"
+		elif [[ $showed_pid =~ ,$cpp, ]]; then
+			showed_pid="$showed_pid$cp,"
+		fi
+	done <<<"$(ps axo pid=,ppid= | sort -n)"
+	ps uf --pid=${showed_pid:1:-1}
+	;;
+*)
+	echo "invalid pid $pid"
+	exit 1
+	;;
+esac
