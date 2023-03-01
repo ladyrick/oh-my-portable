@@ -18,7 +18,7 @@ case "$pid" in
 		elif [[ $showed_pid =~ ,$cpp, ]]; then
 			showed_pid="$showed_pid$cp,"
 		fi
-	done <<<"$(ps axo pid=,ppid= | sort -n)"
+	done <<<"$(ps axfo pid=,ppid=)"
 	ps uf --pid=${showed_pid:1:-1}
 	;;
 *)
