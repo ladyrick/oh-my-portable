@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+export OH_MY_PORTABLE="$(cd "$(dirname "$$0")"/.. && pwd)"
+
+if ! which omprun &>/dev/null; then
+	echo "oh-my-portable is not installed. please run this command first:"
+	echo "    source '$OH_MY_PORTABLE/oh-my-portable.sh'"
+	exit 1
+else
+	bash -i "$@"
+fi

@@ -99,7 +99,7 @@ function __make_local_profile() {
 		cp -f $OH_MY_PORTABLE/rc.d/scripts/* $OH_MY_PORTABLE/dist/scripts/ 2>/dev/null
 		cp -f $OH_MY_PORTABLE/rc.d.private/scripts/* $OH_MY_PORTABLE/dist/scripts/ 2>/dev/null
 		chmod a+x $OH_MY_PORTABLE/dist/scripts/* 2>/dev/null
-		echo 'export PATH="$PATH:$OH_MY_PORTABLE/dist/scripts"' >>"$local_profile"
+		echo 'export PATH="$PATH:$OH_MY_PORTABLE/bin:$OH_MY_PORTABLE/dist/scripts"' >>"$local_profile"
 	fi
 	if [[ "$OH_MY_PORTABLE_CONFIG" =~ t ]]; then
 		__merge_files $OH_MY_PORTABLE/rc.d/tmux.conf.d/* $OH_MY_PORTABLE/rc.d.private/tmux.conf.d/* >>$OH_MY_PORTABLE/dist/.tmux.conf

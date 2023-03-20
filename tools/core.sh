@@ -49,30 +49,87 @@ function ssh() {
 }
 
 if [[ "$OH_MY_PORTABLE" ]]; then
-	function refresh_oh_my_portable() {
-		source $OH_MY_PORTABLE/oh-my-portable.sh && echo -e '\e[32mFinished\e[0m' || echo -e '\e[31mError\e[0m'
-	}
-	function update_oh_my_portable() {
-		echo "[omp] update $OH_MY_PORTABLE/rc.d.private"
-		if [[ -d "$OH_MY_PORTABLE/rc.d.private" ]]; then
+	function omp() {
+		case "$1" in
+		reload)
+			source $OH_MY_PORTABLE/oh-my-portable.sh && echo -e '\e[32mFinished\e[0m' || echo -e '\e[31mError\e[0m'
+			;;
+		update)
+			echo "[omp] update $OH_MY_PORTABLE/rc.d.private"
+			if [[ -d "$OH_MY_PORTABLE/rc.d.private" ]]; then
+				if [[ -d "$OH_MY_PORTABLE/rc.d.private/.git" ]]; then
+					cd "$OH_MY_PORTABLE/rc.d.private"
+					if [[ $(git remote) ]]; then
+						echo '[omp] git pull rc.d.private'
+						git pull
+					else
+						echo '[omp] rc.d.private is a local git repo. skip update'
+					fi
+				else
+					echo '[omp] rc.d.private is not a git repo. skip update'
+				fi
+			else
+				echo '[omp] rc.d.private not found. skip update'
+			fi
+
+			echo "[omp] update $OH_MY_PORTABLE"
+			cd "$OH_MY_PORTABLE"
+			git pull
+
+			echo "[omp] reload $OH_MY_PORTABLE"
+
+			omp reload
+			;;
+		config)
+			echo $(OH_MY_PORTABLE="$OH_MY_PORTABLE" bash $OH_MY_PORTABLE/tools/parse_config.sh)
+			;;
+		run)
+			bash $OH_MY_PORTABLE/bin/omprun "${@:2}"
+			;;
+		check-update)
+			local need_update=0
 			if [[ -d "$OH_MY_PORTABLE/rc.d.private/.git" ]]; then
 				cd "$OH_MY_PORTABLE/rc.d.private"
-				echo '[omp] git pull rc.d.private'
-				git pull
-			else
-				echo '[omp] rc.d.private is not a git repo. skip update'
+				local remote=$(git remote)
+				if [[ -n "$remote" ]]; then
+					echo "checking $OH_MY_PORTABLE/rc.d.private"
+					git fetch "$remote"
+					if git status | head -n 2 | grep -q 'Your branch is behind'; then
+						echo "$OH_MY_PORTABLE/rc.d.private needs to update"
+						need_update=1
+					fi
+				fi
 			fi
-		else
-			echo '[omp] rc.d.private not found. skip update'
-		fi
 
-		echo "[omp] update $OH_MY_PORTABLE"
-		cd "$OH_MY_PORTABLE"
-		git pull
-
-		echo "[omp] refresh $OH_MY_PORTABLE"
-		refresh_oh_my_portable
+			cd "$OH_MY_PORTABLE"
+			echo "checking $OH_MY_PORTABLE"
+			git fetch "$(git remote)"
+			if git status | head -n 2 | grep -q 'Your branch is behind'; then
+				echo "$OH_MY_PORTABLE needs to update"
+				need_update=1
+			fi
+			[[ "$need_update" == 0 ]] && echo "nothing to update"
+			;;
+		help)
+			echo 'usage:
+    omp reload: reload omp to load your change.
+    omp update: update from remote repo.
+    omp config: show omp config
+    omp run: use omp as an interpreter to run a script.
+    omp check-update: check update
+    omp help: show this help message
+'
+			;;
+		esac
 	}
+	function __omp_comp() {
+		if [[ ${#COMP_WORDS[@]} == 2 ]]; then
+			COMPREPLY=($(compgen -W 'reload update config help run check-update' "${COMP_WORDS[1]}"))
+		else
+			COMPREPLY=()
+		fi
+	}
+	complete -F __omp_comp omp
 fi
 
 ############################################### core ###############################################

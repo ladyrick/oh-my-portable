@@ -1,12 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 OH_MY_PORTABLE="$(cd "$(dirname "$BASH_SOURCE[0]")" && pwd)"
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
 	# you are running this file.
-	if [[ $# == 0 ]]; then
-		OH_MY_PORTABLE="$OH_MY_PORTABLE" bash "$OH_MY_PORTABLE/tools/install.sh"
-	fi
-	bash -i "$@"
+	echo 'Please `source` this file. If you want to run a script, use `omprun`.'
 else
 	# you are sourcing this file.
 
