@@ -116,7 +116,7 @@ if [[ -d "$KCONFIG_DIR" ]]; then
 			export KUBECONFIG="$KCONFIG_DIR/$1"
 		fi
 	}
-	__kconfig_comp() {
+	function __kconfig_comp() {
 		if [[ ${#COMP_WORDS[@]} == 2 ]]; then
 			COMPREPLY=($(compgen -W "$(ls "$KCONFIG_DIR")" "${COMP_WORDS[1]}"))
 		else
