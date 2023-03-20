@@ -52,6 +52,27 @@ if [[ "$OH_MY_PORTABLE" ]]; then
 	function refresh_oh_my_portable() {
 		source $OH_MY_PORTABLE/oh-my-portable.sh && echo -e '\e[32mFinished\e[0m' || echo -e '\e[31mError\e[0m'
 	}
+	function update_oh_my_portable() {
+		echo "[omp] update $OH_MY_PORTABLE/rc.d.private"
+		if [[ -d "$OH_MY_PORTABLE/rc.d.private" ]]; then
+			if [[ -d "$OH_MY_PORTABLE/rc.d.private/.git" ]]; then
+				cd "$OH_MY_PORTABLE/rc.d.private"
+				echo '[omp] git pull rc.d.private'
+				git pull
+			else
+				echo '[omp] rc.d.private is not a git repo. skip update'
+			fi
+		else
+			echo '[omp] rc.d.private not found. skip update'
+		fi
+
+		echo "[omp] update $OH_MY_PORTABLE"
+		cd "$OH_MY_PORTABLE"
+		git pull
+
+		echo "[omp] refresh $OH_MY_PORTABLE"
+		refresh_oh_my_portable
+	}
 fi
 
 ############################################### core ###############################################
