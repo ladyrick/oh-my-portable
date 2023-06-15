@@ -14,7 +14,7 @@ total_content="${begin_mark}
 ${content}
 ${end_mark}"
 
-replace_count=$(perl -i -0pe '$c+=s/'"${begin_mark//\//\\\/}(:?.|\\n)*?${end_mark//\//\\\/}$/${total_content//\//\\\/}"'/; END {print "$c"}' "$target_file")
+replace_count=$(perl -i -0pe '$c+=s/'"${begin_mark//\//\\\/}(:?.|\\n)*?${end_mark//\//\\\/}/${total_content//\//\\\/}"'/; END {print "$c"}' "$target_file")
 
 if [[ -z "$replace_count" || $replace_count == 0 ]]; then
 	echo -e "\e[32;1madded to \"$target_file\":\e[0m"
