@@ -130,6 +130,11 @@ if [[ "$OH_MY_PORTABLE" ]]; then
 		fi
 	}
 	complete -F __omp_comp omp
+else
+	function omp() {
+		echo "you are in remote host."
+		return 1
+	}
 fi
 
 ############################################### core ###############################################
