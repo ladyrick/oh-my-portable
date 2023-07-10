@@ -32,12 +32,12 @@ function ssh() {
 		/usr/bin/env ssh "${ssh_args[@]}"
 	elif [[ -z "${cmd_set}" ]]; then
 		local __OH_MY_PORTABLE_REMOTE_PROFILE_STRING=${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING:-$(cat $OH_MY_PORTABLE/dist/remote_profile.sh)}
-		/usr/bin/env ssh -tq "${ssh_args[@]}" "$host" "bash --rcfile <(
-		echo 'export __OH_MY_PORTABLE_REMOTE_PROFILE_STRING='\\''${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING//\'/\'\\\'\'\\\'\\\'\'\'\\\'\'}'\\'
-		cat /etc/profile
-		{ cat ~/.bash_profile || cat ~/.bash_login || cat ~/.profile; } 2>/dev/null
-		echo 'eval \"\${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}\"'
-		)"
+		/usr/bin/env ssh -tq "${ssh_args[@]}" "$host" "
+		__OH_MY_PORTABLE_REMOTE_PROFILE_STRING='${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING//\'/\'\\\'\'}' bash -c 'bash --rcfile <(
+			cat /etc/profile
+			{ cat ~/.bash_profile || cat ~/.bash_login || cat ~/.profile; } 2>/dev/null
+			echo '\\''eval \"\${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}\"'\\''
+		)'"
 	else
 		local __OH_MY_PORTABLE_REMOTE_PROFILE_STRING=${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING:-$(cat $OH_MY_PORTABLE/dist/remote_profile.sh)}
 		/usr/bin/env ssh -tq "${ssh_args[@]}" "$host" "bash -c '
