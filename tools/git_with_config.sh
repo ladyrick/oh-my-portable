@@ -2,7 +2,7 @@ profile_type="$1"
 
 declare -A configs
 while IFS== read conf value; do
-	configs[${conf//\'/\'\\\'\'}]="${value//\'/\'\\\'\'}"
+	configs[${conf//\'/\'\\\'\'}]=${value//\'/\'\\\'\'}
 done
 
 if [[ "$profile_type" == "local" ]]; then

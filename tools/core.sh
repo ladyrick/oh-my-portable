@@ -41,11 +41,12 @@ function ssh() {
 		)'"
 	else
 		local __OH_MY_PORTABLE_REMOTE_PROFILE_STRING=${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING:-$(cat $OH_MY_PORTABLE/dist/remote_profile.sh)}
+		cmd=${cmd//\'/\'\\\'\'}
 		__OH_MY_PORTABLE_REMOTE_PROFILE_STRING=${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING//\'/\'\\\'\'\\\'\\\'\'\'\\\'\'}
 		/usr/bin/env ssh -tq "${ssh_args[@]}" "$host" "bash -c '
 		export __OH_MY_PORTABLE_REMOTE_PROFILE_STRING='\\''${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}'\\''
 		eval \"\${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}\"
-		${cmd//\'/\'\\\'\'}
+		${cmd}
 		'"
 	fi
 }
