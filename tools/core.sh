@@ -1,7 +1,5 @@
 ############################################### core ###############################################
 
-shopt -s expand_aliases
-
 function ssh() {
 	declare -a ssh_args
 	local host host_set cmd cmd_set
@@ -55,16 +53,17 @@ if [[ "$OH_MY_PORTABLE" ]]; then
 	function omp() {
 		case "$1" in
 		reload)
+			bash "$OH_MY_PORTABLE/tools/install.sh"
 			source $OH_MY_PORTABLE/oh-my-portable.sh && echo -e '\e[32mFinished\e[0m' || echo -e '\e[31mError\e[0m'
 			;;
 		update)
+			# update in subshell to avoid changing current directory
 			echo "[omp] update $OH_MY_PORTABLE/rc.d.private"
 			if [[ -d "$OH_MY_PORTABLE/rc.d.private" ]]; then
 				if [[ -d "$OH_MY_PORTABLE/rc.d.private/.git" ]]; then
-					cd "$OH_MY_PORTABLE/rc.d.private"
-					if [[ $(git remote) ]]; then
+					if [[ $(git -C "$OH_MY_PORTABLE/rc.d.private" remote) ]]; then
 						echo '[omp] git pull rc.d.private'
-						git pull
+						git -C "$OH_MY_PORTABLE/rc.d.private" pull
 					else
 						echo '[omp] rc.d.private is a local git repo. skip update'
 					fi
@@ -76,38 +75,30 @@ if [[ "$OH_MY_PORTABLE" ]]; then
 			fi
 
 			echo "[omp] update $OH_MY_PORTABLE"
-			cd "$OH_MY_PORTABLE"
-			git pull
+			git -C "$OH_MY_PORTABLE" pull
 
 			echo "[omp] reload $OH_MY_PORTABLE"
-
 			omp reload
 			;;
 		config)
-			echo $(OH_MY_PORTABLE="$OH_MY_PORTABLE" bash $OH_MY_PORTABLE/tools/parse_config.sh)
-			;;
-		run)
-			bash $OH_MY_PORTABLE/bin/omprun "${@:2}"
+			bash -c "$(cat "$OH_MY_PORTABLE/config.sh")"';for c in ${!portable_*}; do echo "$c=${!c}"; done'
 			;;
 		check-update)
 			local need_update=0
 			if [[ -d "$OH_MY_PORTABLE/rc.d.private/.git" ]]; then
-				cd "$OH_MY_PORTABLE/rc.d.private"
-				local remote=$(git remote)
+				local remote=$(git -C "$OH_MY_PORTABLE/rc.d.private" remote)
 				if [[ -n "$remote" ]]; then
 					echo "checking $OH_MY_PORTABLE/rc.d.private"
-					git fetch "$remote"
-					if git status | head -n 2 | grep -q 'Your branch is behind'; then
+					git -C "$OH_MY_PORTABLE/rc.d.private" fetch "$remote"
+					if git -C "$OH_MY_PORTABLE/rc.d.private" status | head -n 2 | grep -q 'Your branch is behind'; then
 						echo "$OH_MY_PORTABLE/rc.d.private needs to update"
 						need_update=1
 					fi
 				fi
 			fi
-
-			cd "$OH_MY_PORTABLE"
 			echo "checking $OH_MY_PORTABLE"
-			git fetch "$(git remote)"
-			if git status | head -n 2 | grep -q 'Your branch is behind'; then
+			git -C "$OH_MY_PORTABLE" fetch "$(git -C "$OH_MY_PORTABLE" remote)"
+			if git -C "$OH_MY_PORTABLE" status | head -n 2 | grep -q 'Your branch is behind'; then
 				echo "$OH_MY_PORTABLE needs to update"
 				need_update=1
 			fi
@@ -118,16 +109,19 @@ if [[ "$OH_MY_PORTABLE" ]]; then
     omp reload: reload omp to load your change.
     omp update: update from remote repo.
     omp config: show omp config
-    omp run: use omp as an interpreter to run a script.
     omp check-update: check update
     omp help: show this help message
 '
+			;;
+		*)
+			echo "unknown command '$1'. try \`omp help\` for help."
+			return 1
 			;;
 		esac
 	}
 	function __omp_comp() {
 		if [[ ${#COMP_WORDS[@]} == 2 ]]; then
-			COMPREPLY=($(compgen -W 'reload update config help run check-update' "${COMP_WORDS[1]}"))
+			COMPREPLY=($(compgen -W 'reload update config help check-update' "${COMP_WORDS[1]}"))
 		else
 			COMPREPLY=()
 		fi
@@ -135,7 +129,7 @@ if [[ "$OH_MY_PORTABLE" ]]; then
 	complete -F __omp_comp omp
 else
 	function omp() {
-		echo "you are in remote host."
+		echo "invalid usage: you are in remote host."
 		return 1
 	}
 fi

@@ -31,7 +31,7 @@ source ./oh-my-portable.sh
 ## 3. Refresh oh-my-portable
 
 ```
-refresh_oh_my_portable
+omp reload
 ```
 
 Every time you change your configure in `rc.d` or `rc.d.private`, please run this command to bring them into effect.

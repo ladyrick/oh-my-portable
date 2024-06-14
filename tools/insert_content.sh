@@ -1,3 +1,5 @@
+[[ "$0" != "${BASH_SOURCE[0]}" ]] && echo "run me. don't source me." && return 1
+
 if (($# < 2)); then
 	echo "Error! need target file and content."
 	exit 1
