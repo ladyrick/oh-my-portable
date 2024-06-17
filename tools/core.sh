@@ -36,8 +36,8 @@ function ssh() {
 			cmd_str="__OH_MY_PORTABLE_REMOTE_PROFILE_STRING='$(sed "$sed_replace" <<<"$cmd_str")'"
 			cmd_str="bash --rcfile <(
 echo '$(sed "$sed_replace" <<<"$cmd_str")'
-cat /etc/profile
-"'for f in ~/.bash_profile ~/.bash_login ~/.profile; do if [[ -f "$f" ]]; then echo; cat "$f"; echo; fi; done'"
+cat /etc/profile; echo
+"'for f in ~/.bash_profile ~/.bash_login ~/.profile; do if [[ -f "$f" ]]; then cat "$f"; echo; break; fi; done'"
 echo 'eval \"\${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}\"'
 )"
 			cmd_str="bash -c '$(sed "$sed_replace" <<<"$cmd_str")'"
