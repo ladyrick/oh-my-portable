@@ -111,7 +111,7 @@ function make_local_profile() {
 		cp -f rc.d/scripts/* dist/scripts/ 2>/dev/null
 		cp -f rc.d.private/scripts/* dist/scripts/ 2>/dev/null
 		chmod a+x dist/scripts/* 2>/dev/null
-		echo 'export PATH="$PATH:$proj_dir/bin:$proj_dir/dist/scripts"' >>"$local_profile"
+		echo 'export PATH="$PATH:'"$proj_dir/bin:$proj_dir"'/dist/scripts"' >>"$local_profile"
 	fi
 	if [[ "$portable_tmux" == true ]]; then
 		merge_files rc.d/tmux.conf.d/* rc.d.private/tmux.conf.d/* >>dist/.tmux.conf
