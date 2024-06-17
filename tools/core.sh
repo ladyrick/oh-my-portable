@@ -34,23 +34,18 @@ function ssh() {
 		local sed_replace="s/'/'\\\\''/g"
 		if [[ -z "${cmd_set}" ]]; then
 			cmd_str="__OH_MY_PORTABLE_REMOTE_PROFILE_STRING='$(sed "$sed_replace" <<<"$cmd_str")'"
-			cmd_str="
-				bash --rcfile <(
-					echo '$(sed "$sed_replace" <<<"$cmd_str")'
-					cat /etc/profile
-					{ cat ~/.bash_profile || cat ~/.bash_login || cat ~/.profile; } 2>/dev/null
-					echo 'eval \"\${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}\"'
-				)
-			"
+			cmd_str="bash --rcfile <(
+echo '$(sed "$sed_replace" <<<"$cmd_str")'
+cat /etc/profile
+"'for f in ~/.bash_profile ~/.bash_login ~/.profile; do if [[ -f "$f" ]]; then echo; cat "$f"; echo; fi; done'"
+echo 'eval \"\${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}\"'
+)"
 			cmd_str="bash -c '$(sed "$sed_replace" <<<"$cmd_str")'"
-			/usr/bin/env ssh -tq "${ssh_args[@]}" "$host" "$cmd_str"
+			/usr/bin/env ssh -t "${ssh_args[@]}" "$host" "$cmd_str"
 		else
-			local __OH_MY_PORTABLE_REMOTE_PROFILE_STRING=${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING:-$(cat $OH_MY_PORTABLE/dist/remote_profile.sh)}
-			cmd_str="
-				__OH_MY_PORTABLE_REMOTE_PROFILE_STRING='$(sed "$sed_replace" <<<"$cmd_str")'
-				eval \"\${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}\"
-				$cmd
-			"
+			cmd_str="__OH_MY_PORTABLE_REMOTE_PROFILE_STRING='$(sed "$sed_replace" <<<"$cmd_str")'
+eval \"\${__OH_MY_PORTABLE_REMOTE_PROFILE_STRING}\"
+$cmd"
 			cmd_str="bash -c '$(sed "$sed_replace" <<<"$cmd_str")'"
 			/usr/bin/env ssh "${ssh_args[@]}" "$host" "$cmd_str"
 		fi
